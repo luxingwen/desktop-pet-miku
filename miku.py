@@ -1,4 +1,5 @@
 import sys
+import os
 import random
 import webbrowser
 from PyQt5.QtWidgets import *
@@ -9,7 +10,7 @@ from PyQt5 import QtWidgets, QtGui
 class MyMikuPet(QWidget):
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
-        quit = QAction("退出", self, triggered=self.close)
+        quit = QAction("退出", self, triggered=os._exit)
         quit.setIcon(QIcon("img/icon.png"))
         addPet = QAction("添加一个Miku", self, triggered = addOnePet)
         addPet.setIcon(QIcon("img/icon.png"))
@@ -46,8 +47,7 @@ class myPet(QWidget):
 
     def initUI(self):
         self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.SubWindow)
-        self.setAutoFillBackground(False)
-        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WA_TranslucentBackground)
         self.repaint()
         self.img = QLabel(self)
         self.actionDatas = []
@@ -103,7 +103,7 @@ class myPet(QWidget):
 
     def setPic(self, pic):
         img = QImage()
-        img.load('img/'+pic)                       
+        img.load('img/'+pic)
         self.img.setPixmap(QPixmap.fromImage(img))
 
     def runFunc(self, imgs):
@@ -116,7 +116,7 @@ class myPet(QWidget):
     def randomPos(self):
         screen = QDesktopWidget().screenGeometry()
         size =  self.geometry()
-        self.move((screen.width()-size.width())*random.random(), (screen.height()-size.height())*random.random())
+        self.move(int((screen.width()-size.width())*random.random()), int((screen.height()-size.height())*random.random()))
 
     def mousePressEvent(self, event):
         if event.button()==Qt.LeftButton:
